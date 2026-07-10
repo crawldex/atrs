@@ -1,0 +1,62 @@
+{
+  "atr_version": "0.1",
+  "site": "marketplace.example",
+  "task": null,
+  "issued_at": "2026-07-02T12:00:00.000Z",
+  "record_id": "atr_5555555555555555",
+  "verdict": "proceed_with_guardrails",
+  "confidence": 0.52,
+  "accessibility": {
+    "reachable": true,
+    "agent_hostility": "low",
+    "success_rate": "unknown",
+    "handoff_rate": "unknown",
+    "blocked_rate": "unknown",
+    "n": 44,
+    "last_verified": "2026-07-01"
+  },
+  "safety": {
+    "canonical": "unknown",
+    "canonical_alternative": null,
+    "domain_risk": "unknown",
+    "notes": ["Site-level records summarize observed task rows; use task-level records before action."]
+  },
+  "freshness": {
+    "median_evidence_age_days": 11,
+    "surface_last_changed": null,
+    "stale": false
+  },
+  "task_compatibility": {
+    "supported": true,
+    "expected_steps": "unknown",
+    "recipe_available": true,
+    "alternatives": []
+  },
+  "known_blockers": [
+    {
+      "kind": "captcha_interstitial",
+      "since": "unknown",
+      "n": "unknown",
+      "persistent": "unknown"
+    }
+  ],
+  "user_present": {
+    "required": false,
+    "reasons": [],
+    "irreversible_action": "unknown"
+  },
+  "agent_instruction": "Use a task-level trust record before attempting a specific action on this site.",
+  "evidence": {
+    "sources": {
+      "public_web_observation": 22,
+      "anonymous_report": 22
+    },
+    "canonical_url": "https://crawldex.com/sites/marketplace.example",
+    "dispute_url": "https://crawldex.com/disputes?record=atr_5555555555555555"
+  },
+  "publisher": {
+    "claimed": false,
+    "statement": null
+  },
+  "how_to_improve": null
+}

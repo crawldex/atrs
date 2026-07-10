@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://crawldex.com/atrs/record-0.1.schema.json",
+  "title": "Agent Trust Record 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "atr_version",
+    "site",
+    "task",
+    "issued_at",
+    "record_id",
+    "verdict",
+    "confidence",
+    "accessibility",
+    "safety",
+    "freshness",
+    "task_compatibility",
+    "known_blockers",
+    "user_present",
+    "agent_instruction",
+    "evidence",
+    "publisher",
+    "how_to_improve"
+  ],
+  "properties": {
+    "atr_version": { "const": "0.1" },
+    "site": { "type": "string", "minLength": 1, "maxLength": 253 },
+    "task": { "anyOf": [{ "type": "string", "minLength": 1, "maxLength": 160 }, { "type": "null" }] },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "record_id": { "type": "string", "pattern": "^atr_[0-9a-f]{16}$" },
+    "verdict": { "enum": ["proceed", "proceed_with_guardrails", "handoff_required", "user_needed", "avoid", "unknown"] },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "accessibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reachable", "agent_hostility", "success_rate", "handoff_rate", "blocked_rate", "n", "last_verified"],
+      "properties": {
+        "reachable": { "anyOf": [{ "type": "boolean" }, { "const": "unknown" }] },
+        "agent_hostility": { "enum": ["none", "low", "medium", "high", "wall", "unknown"] },
+        "success_rate": { "anyOf": [{ "type": "number", "minimum": 0, "maximum": 1 }, { "const": "unknown" }] },
+        "handoff_rate": { "anyOf": [{ "type": "number", "minimum": 0, "maximum": 1 }, { "const": "unknown" }] },
+        "blocked_rate": { "anyOf": [{ "type": "number", "minimum": 0, "maximum": 1 }, { "const": "unknown" }] },
+        "n": { "type": "integer", "minimum": 0 },
+        "last_verified": { "anyOf": [{ "type": "string", "minLength": 1 }, { "type": "null" }] }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonical", "canonical_alternative", "domain_risk", "notes"],
+      "properties": {
+        "canonical": { "anyOf": [{ "type": "boolean" }, { "const": "unknown" }] },
+        "canonical_alternative": { "anyOf": [{ "type": "string", "minLength": 1 }, { "type": "null" }] },
+        "domain_risk": { "enum": ["none", "caution", "risk", "unknown"] },
+        "notes": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["median_evidence_age_days", "surface_last_changed", "stale"],
+      "properties": {
+        "median_evidence_age_days": { "anyOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }] },
+        "surface_last_changed": { "anyOf": [{ "type": "string", "minLength": 1 }, { "type": "null" }] },
+        "stale": { "anyOf": [{ "type": "boolean" }, { "const": "unknown" }] }
+      }
+    },
+    "task_compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["supported", "expected_steps", "recipe_available", "alternatives"],
+      "properties": {
+        "supported": { "anyOf": [{ "type": "boolean" }, { "const": "unknown" }] },
+        "expected_steps": { "anyOf": [{ "type": "integer", "minimum": 0 }, { "const": "unknown" }] },
+        "recipe_available": { "type": "boolean" },
+        "alternatives": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "known_blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "since", "n", "persistent"],
+        "properties": {
+          "kind": { "type": "string", "minLength": 1 },
+          "since": { "anyOf": [{ "type": "string", "minLength": 1 }, { "const": "unknown" }] },
+          "n": { "anyOf": [{ "type": "integer", "minimum": 0 }, { "const": "unknown" }] },
+          "persistent": { "anyOf": [{ "type": "boolean" }, { "const": "unknown" }] }
+        }
+      }
+    },
+    "user_present": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "reasons", "irreversible_action"],
+      "properties": {
+        "required": { "anyOf": [{ "type": "boolean" }, { "const": "unknown" }] },
+        "reasons": { "type": "array", "items": { "type": "string" } },
+        "irreversible_action": { "anyOf": [{ "type": "boolean" }, { "const": "unknown" }] }
+      }
+    },
+    "agent_instruction": { "type": "string", "minLength": 1 },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sources", "canonical_url", "dispute_url"],
+      "properties": {
+        "sources": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "seeded_example": { "type": "integer", "minimum": 0 },
+            "public_web_observation": { "type": "integer", "minimum": 0 },
+            "anonymous_report": { "type": "integer", "minimum": 0 },
+            "merchant_report": { "type": "integer", "minimum": 0 },
+            "attested_sdk": { "type": "integer", "minimum": 0 },
+            "human_attested": { "type": "integer", "minimum": 0 },
+            "synthetic_canary": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "canonical_url": { "type": "string", "minLength": 1 },
+        "dispute_url": { "type": "string", "minLength": 1 }
+      }
+    },
+    "publisher": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claimed", "statement"],
+      "properties": {
+        "claimed": { "type": "boolean" },
+        "statement": { "anyOf": [{ "type": "string", "minLength": 1, "maxLength": 280 }, { "type": "null" }] }
+      }
+    },
+    "how_to_improve": { "anyOf": [{ "type": "string", "minLength": 1 }, { "type": "null" }] }
+  }
+}

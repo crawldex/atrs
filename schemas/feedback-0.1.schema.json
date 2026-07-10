@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://crawldex.com/atrs/feedback-0.1.schema.json",
+  "title": "Agent Trust Record Feedback 0.1",
+  "oneOf": [
+    {
+      "title": "Decision Echo",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_id", "action_taken", "task_attempted"],
+      "properties": {
+        "record_id": { "type": "string", "pattern": "^atr_[0-9a-f]{16}$" },
+        "action_taken": { "enum": ["followed", "overrode", "partial"] },
+        "task_attempted": { "type": "boolean" }
+      }
+    },
+    {
+      "title": "Outcome Status",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_id", "outcome", "task_attempted"],
+      "properties": {
+        "record_id": { "type": "string", "pattern": "^atr_[0-9a-f]{16}$" },
+        "outcome": { "enum": ["success", "success_with_handoff", "partial", "blocked", "failed", "abandoned"] },
+        "task_attempted": { "type": "boolean" },
+        "redaction_status": { "enum": ["not_captured", "redacted", "hash_only", "private_artifact"] }
+      }
+    }
+  ]
+}

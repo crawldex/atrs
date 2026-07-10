@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "If you use atrs, cite CrawlDex and the relevant dataset or benchmark artifact."
+title: "Agent Trust Record Schemas"
+version: "0.1.0"
+date-released: "2026-07-04"
+authors:
+  - family-names: "CrawlDex"
+    given-names: "Project"
+url: "https://crawldex.com"
+repository-code: "https://github.com/crawldex/atrs"
+license: "MIT"
+preferred-citation:
+  type: generic
+  title: "CrawlDex"
+  authors:
+    - family-names: "CrawlDex"
+      given-names: "Project"
+  url: "https://crawldex.com"
+references:
+  - type: data
+    title: "CrawlDex Agent Web Outcomes"
+    authors:
+      - family-names: "CrawlDex"
+        given-names: "Project"
+    url: "https://crawldex.com/datasets"
+  - type: data
+    title: "CrawlDex Bench"
+    authors:
+      - family-names: "CrawlDex"
+        given-names: "Project"
+    url: "https://crawldex.com/bench"
+  - type: generic
+    title: "CrawlDex public project"
+    authors:
+      - family-names: "CrawlDex"
+        given-names: "Project"
+    url: "https://crawldex.com"

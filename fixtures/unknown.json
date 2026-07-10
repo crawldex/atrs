@@ -1,0 +1,52 @@
+{
+  "atr_version": "0.1",
+  "site": "new-service.example",
+  "task": "billing.cancel_trial",
+  "issued_at": "2026-07-02T12:00:00.000Z",
+  "record_id": "atr_4444444444444444",
+  "verdict": "unknown",
+  "confidence": 0,
+  "accessibility": {
+    "reachable": "unknown",
+    "agent_hostility": "unknown",
+    "success_rate": "unknown",
+    "handoff_rate": "unknown",
+    "blocked_rate": "unknown",
+    "n": 0,
+    "last_verified": null
+  },
+  "safety": {
+    "canonical": "unknown",
+    "canonical_alternative": null,
+    "domain_risk": "unknown",
+    "notes": []
+  },
+  "freshness": {
+    "median_evidence_age_days": null,
+    "surface_last_changed": null,
+    "stale": "unknown"
+  },
+  "task_compatibility": {
+    "supported": "unknown",
+    "expected_steps": "unknown",
+    "recipe_available": false,
+    "alternatives": []
+  },
+  "known_blockers": [],
+  "user_present": {
+    "required": "unknown",
+    "reasons": [],
+    "irreversible_action": "unknown"
+  },
+  "agent_instruction": "Collect public evidence before attempting this task autonomously.",
+  "evidence": {
+    "sources": {},
+    "canonical_url": "https://crawldex.com/sites/new-service.example/billing.cancel_trial",
+    "dispute_url": "https://crawldex.com/disputes?record=atr_4444444444444444"
+  },
+  "publisher": {
+    "claimed": false,
+    "statement": null
+  },
+  "how_to_improve": "Submit fresh sanitized outcome evidence or request a re-test."
+}

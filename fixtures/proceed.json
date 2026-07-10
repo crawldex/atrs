@@ -1,0 +1,56 @@
+{
+  "atr_version": "0.1",
+  "site": "airline.example",
+  "task": "travel.check_in",
+  "issued_at": "2026-07-02T12:00:00.000Z",
+  "record_id": "atr_1111111111111111",
+  "verdict": "proceed",
+  "confidence": 0.87,
+  "accessibility": {
+    "reachable": true,
+    "agent_hostility": "none",
+    "success_rate": 0.92,
+    "handoff_rate": 0.04,
+    "blocked_rate": 0.01,
+    "n": 64,
+    "last_verified": "2026-07-01"
+  },
+  "safety": {
+    "canonical": true,
+    "canonical_alternative": null,
+    "domain_risk": "none",
+    "notes": []
+  },
+  "freshness": {
+    "median_evidence_age_days": 2,
+    "surface_last_changed": null,
+    "stale": false
+  },
+  "task_compatibility": {
+    "supported": true,
+    "expected_steps": 5,
+    "recipe_available": true,
+    "alternatives": ["airline-alt.example"]
+  },
+  "known_blockers": [],
+  "user_present": {
+    "required": false,
+    "reasons": [],
+    "irreversible_action": false
+  },
+  "agent_instruction": "Proceed with the published task recipe and stop before any irreversible action.",
+  "evidence": {
+    "sources": {
+      "attested_sdk": 40,
+      "human_attested": 12,
+      "synthetic_canary": 12
+    },
+    "canonical_url": "https://crawldex.com/sites/airline.example/travel.check_in",
+    "dispute_url": "https://crawldex.com/disputes?record=atr_1111111111111111"
+  },
+  "publisher": {
+    "claimed": false,
+    "statement": null
+  },
+  "how_to_improve": null
+}
