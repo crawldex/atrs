@@ -22,14 +22,16 @@ if (!result.valid) {
 validateFeedback({
   record_id: record.record_id,
   action_taken: "followed",
-  task_attempted: true
+  task_attempted: false,
+  removed_in_batch: true
 });
 ```
 
 ## Package Contents
 
 - `schemas/record-0.1.schema.json` - Agent Trust Record schema.
-- `schemas/feedback-0.1.schema.json` - structured decision echo and outcome status schema.
+- `schemas/feedback-0.2.schema.json` - current structured decision echo and outcome status schema.
+- `schemas/feedback-0.1.schema.json` - immutable compatibility schema without the batch-removal signal.
 - `schemas/site-declaration-0.1.md` - publisher-facing declaration draft for WP-5B.
 - `src/index.ts` - dependency-free reference validators and schema loaders.
 - `fixtures/` - compact examples for proceed, handoff, user-needed, unknown, and site-level records.
@@ -42,8 +44,10 @@ CrawlDex is the only conforming implementation listed at this stage. Third-party
 
 Feedback intentionally carries only structured telemetry:
 
-- decision echo: `record_id`, `action_taken`, `task_attempted`
+- decision echo: `record_id`, `action_taken`, `task_attempted`, optional `removed_in_batch`
 - outcome status: `record_id`, `outcome`, `task_attempted`, optional `redaction_status`
+
+Set `removed_in_batch` to `true` only when a batch abort or reroute has been confirmed. Omit it for ordinary decision echoes; the field remains a boolean rather than a reason or other free-text description.
 
 It does not accept free text, URLs, emails, account identifiers, raw traces, screenshots, DOM dumps, cookies, prompts, or private task content.
 

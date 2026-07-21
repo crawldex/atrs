@@ -1,6 +1,6 @@
 {
   "name": "@crawldex/atrs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Agent Trust Record Schema validators and reference schemas.",
   "type": "module",
   "main": "./dist/index.js",

@@ -10,6 +10,7 @@ import {
   FEEDBACK_OUTCOMES,
   REDACTION_STATUSES,
   loadFeedbackSchema,
+  loadFeedbackSchemaV01,
   loadRecordSchema,
   validateFeedback,
   validateRecord
@@ -67,6 +68,20 @@ describe("ATRS feedback validator", () => {
     })).toEqual({ valid: true, errors: [] });
 
     expect(validateFeedback({
+      record_id: "atr_aaaaaaaaaaaaaaaa",
+      action_taken: "partial",
+      task_attempted: false,
+      removed_in_batch: true
+    })).toEqual({ valid: true, errors: [] });
+
+    expect(validateFeedback({
+      record_id: "atr_aaaaaaaaaaaaaaaa",
+      action_taken: "overrode",
+      task_attempted: false,
+      removed_in_batch: false
+    })).toEqual({ valid: true, errors: [] });
+
+    expect(validateFeedback({
       record_id: "atr_bbbbbbbbbbbbbbbb",
       outcome: "success_with_handoff",
       task_attempted: true,
@@ -78,6 +93,7 @@ describe("ATRS feedback validator", () => {
     for (const payload of [
       { record_id: "atr_aaaaaaaaaaaaaaaa", action_taken: "followed", task_attempted: true, comment: "private detail" },
       { record_id: "atr_aaaaaaaaaaaaaaaa", action_taken: "followed", task_attempted: true, url: "https://private.example/path" },
+      { record_id: "atr_aaaaaaaaaaaaaaaa", action_taken: "followed", task_attempted: false, removed_in_batch: "yes" },
       { record_id: "atr_aaaaaaaaaaaaaaaa", outcome: "success", task_attempted: true, email: "person@example.com" },
       { record_id: "atr_aaaaaaaaaaaaaaaa", action_taken: "ignored", task_attempted: true }
     ]) {
@@ -90,10 +106,22 @@ describe("ATRS feedback validator", () => {
     const keys = collectSchemaPropertyKeys(schema);
 
     expect(schema.oneOf.every((branch) => branch.additionalProperties === false)).toBe(true);
-    expect(keys.sort()).toEqual(["action_taken", "outcome", "record_id", "redaction_status", "task_attempted"].sort());
+    expect(keys.sort()).toEqual(["action_taken", "outcome", "record_id", "redaction_status", "removed_in_batch", "task_attempted"].sort());
+    expect(schema.oneOf[0]?.required).not.toContain("removed_in_batch");
+    expect(schema.oneOf[0]?.properties.removed_in_batch.type).toBe("boolean");
     expect(schema.oneOf[0]?.properties.action_taken.enum).toEqual([...FEEDBACK_ACTIONS]);
     expect(schema.oneOf[1]?.properties.outcome.enum).toEqual([...FEEDBACK_OUTCOMES]);
     expect(schema.oneOf[1]?.properties.redaction_status.enum).toEqual([...REDACTION_STATUSES]);
+  });
+
+  it("keeps feedback 0.1 immutable while 0.2 carries the batch signal", () => {
+    const schemaV01 = loadFeedbackSchemaV01() as FeedbackSchema;
+    const schemaV02 = loadFeedbackSchema() as FeedbackSchema & { $id: string; title: string };
+
+    expect(schemaV01.oneOf[0]?.properties).not.toHaveProperty("removed_in_batch");
+    expect(schemaV02.$id).toBe("https://crawldex.com/atrs/feedback-0.2.schema.json");
+    expect(schemaV02.title).toBe("Agent Trust Record Feedback 0.2");
+    expect(schemaV02.oneOf[0]?.properties.removed_in_batch).toEqual({ type: "boolean" });
   });
 });
 
@@ -129,6 +157,7 @@ interface RecordSchema {
 interface FeedbackSchema {
   oneOf: Array<{
     additionalProperties: boolean;
-    properties: Record<string, { enum?: string[] }>;
+    required: string[];
+    properties: Record<string, { enum?: string[]; type?: string }>;
   }>;
 }

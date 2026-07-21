@@ -36,6 +36,10 @@ export function loadRecordSchema(): unknown {
 }
 
 export function loadFeedbackSchema(): unknown {
+  return readSchema("feedback-0.2.schema.json");
+}
+
+export function loadFeedbackSchemaV01(): unknown {
   return readSchema("feedback-0.1.schema.json");
 }
 
@@ -199,10 +203,16 @@ function validatePublisher(value: unknown, errors: string[]): void {
 function validateDecisionEcho(payload: unknown): string[] {
   const errors: string[] = [];
   if (!expectRecord(payload, "$", errors)) return errors;
-  requireExactKeys(payload, "$", ["record_id", "action_taken", "task_attempted"], errors);
+  requireAllowedKeys(payload, "$", ["record_id", "action_taken", "task_attempted", "removed_in_batch"], errors);
+  for (const key of ["record_id", "action_taken", "task_attempted"]) {
+    if (!(key in payload)) errors.push(`$.${key} is required`);
+  }
   expectRecordId(payload.record_id, "$.record_id", errors);
   expectEnum(payload.action_taken, FEEDBACK_ACTIONS, "$.action_taken", errors);
   expectBoolean(payload.task_attempted, "$.task_attempted", errors);
+  if ("removed_in_batch" in payload) {
+    expectBoolean(payload.removed_in_batch, "$.removed_in_batch", errors);
+  }
   return errors;
 }
 
