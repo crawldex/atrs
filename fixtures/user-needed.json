@@ -1,0 +1,68 @@
+{
+  "atr_version": "0.1",
+  "site": "retailer.example",
+  "task": "orders.return_item",
+  "issued_at": "2026-07-02T12:00:00.000Z",
+  "record_id": "atr_3333333333333333",
+  "verdict": "user_needed",
+  "confidence": 0.68,
+  "accessibility": {
+    "reachable": true,
+    "agent_hostility": "medium",
+    "success_rate": 0.41,
+    "handoff_rate": "unknown",
+    "blocked_rate": "unknown",
+    "n": 27,
+    "last_verified": "2026-07-01"
+  },
+  "safety": {
+    "canonical": "unknown",
+    "canonical_alternative": null,
+    "domain_risk": "unknown",
+    "notes": ["The flow can reach refund confirmation and shipping-label generation."]
+  },
+  "freshness": {
+    "median_evidence_age_days": 7,
+    "surface_last_changed": null,
+    "stale": false
+  },
+  "task_compatibility": {
+    "supported": true,
+    "expected_steps": 8,
+    "recipe_available": true,
+    "alternatives": ["retailer-support.example"]
+  },
+  "known_blockers": [
+    {
+      "kind": "login_required",
+      "since": "2026-06-26",
+      "n": 27,
+      "persistent": true
+    },
+    {
+      "kind": "2fa_user_present",
+      "since": "2026-06-29",
+      "n": 8,
+      "persistent": true
+    }
+  ],
+  "user_present": {
+    "required": true,
+    "reasons": ["login_required", "2fa_user_present"],
+    "irreversible_action": true
+  },
+  "agent_instruction": "Use browser-with-user-present mode and stop before confirming the return.",
+  "evidence": {
+    "sources": {
+      "seeded_example": 9,
+      "attested_sdk": 18
+    },
+    "canonical_url": "https://crawldex.com/sites/retailer.example/orders.return_item",
+    "dispute_url": "https://crawldex.com/disputes?record=atr_3333333333333333"
+  },
+  "publisher": {
+    "claimed": false,
+    "statement": null
+  },
+  "how_to_improve": "Provide a documented return flow for agents or submit fresh redacted task evidence."
+}
